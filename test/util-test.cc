@@ -708,7 +708,7 @@ TEST(ArgVisitorTest, VisitUnhandledArg) {
 
 TEST(ArgVisitorTest, VisitInvalidArg) {
   Arg arg = Arg();
-  arg.type = static_cast<Arg::Type>(Arg::CUSTOM + 1);
+  arg.type = static_cast<Arg::Type>(Arg::NONE);
   EXPECT_ASSERT(TestVisitor().visit(arg), "invalid argument type");
 }
 
@@ -955,4 +955,18 @@ TEST(UtilTest, Conditional) {
   char c = 0;
   fmt::internal::Conditional<false, int, char>::type *pc = &c;
   (void)pc;
+}
+
+struct TestLConv {
+  char *thousands_sep;
+};
+
+struct EmptyLConv {};
+
+TEST(UtilTest, ThousandsSep) {
+  char foo[] = "foo";
+  TestLConv lc = {foo};
+  EXPECT_EQ("foo", fmt::internal::thousands_sep(&lc).to_string());
+  EmptyLConv empty_lc;
+  EXPECT_EQ("", fmt::internal::thousands_sep(&empty_lc));
 }
