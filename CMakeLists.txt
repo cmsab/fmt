@@ -2,7 +2,9 @@ message(STATUS "CMake version: ${CMAKE_VERSION}")
 
 cmake_minimum_required(VERSION 2.8.12)
 
+if (UNIX)
 set(CMAKE_CXX_FLAGS_RELEASE "-c -g3 -pipe -O2 -funsigned-char -Wall -pedantic -Wno-long-long -Wextra -Wctor-dtor-privacy -Woverloaded-virtual -Winit-self -Wno-switch-default -Wstrict-aliasing=2 -Wfloat-equal -Wno-variadic-macros -fdiagnostics-color -std=c++11 -Werror")
+endif()
 
 # Determine if fmt is built as a subproject (using add_subdirectory)
 # or if it is the master project.
